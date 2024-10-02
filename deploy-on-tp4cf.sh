@@ -21,10 +21,7 @@ setup)
     cf push $APP_NAME -k 1GB -m 1GB -p build/libs/$APP_NAME-$APP_VERSION.jar --no-start --random-route
 
     echo && printf "\e[37mℹ️  Binding services ...\e[m\n" && echo
-    cf bind-service $APP_NAME $PGVECTOR_SERVICE_NAME
-    cf bind-service $APP_NAME $GENAI_CHAT_SERVICE_NAME
-    cf bind-service $APP_NAME $GENAI_EMBEDDINGS_SERVICE_NAME
-    cf bind-service $APP_NAME $STORAGE_PROVIDER_SERVICE_NAME
+    cf bind-service $APP_NAME $CONFIG_SERVICE_NAME
 
     echo && printf "\e[37mℹ️  Setting environment variables for use by $APP_NAME application ...\e[m\n" && echo
     cf set-env $APP_NAME JAVA_OPTS "-Djava.security.egd=file:///dev/urandom -XX:+UseG1GC -XX:+UseStringDeduplication"

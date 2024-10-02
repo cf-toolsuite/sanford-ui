@@ -1,1 +1,1 @@
-io.pivotal.cfenv.spring.boot.CfEnvProcessor=org.cftoolsuite.config.SanfordCfEnvProcessor
+io.pivotal.cfenv.spring.boot.CfEnvProcessor=org.cftoolsuite.config.SanfordCfEnvPostProcessor

@@ -61,6 +61,13 @@ document:
     port: ${DOCUMENT_SERVICE_PORT:8080}
     url: ${document.service.scheme}://${document.service.host}:${document.service.port}
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000
+
 vaadin:
   launch-browser: true
   allowed-packages: com.vaadin,org.vaadin

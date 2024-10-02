@@ -3,7 +3,7 @@
 APP_NAME="sanford-ui"
 APP_VERSION="0.0.1-SNAPSHOT"
 
-DOCUMENT_SERVICE_HOST="sanford.apps.dhaka.cf-app.com"
+DOCUMENT_SERVICE_HOST="sanford-brash-pangolin-dr.apps.dhaka.cf-app.com"
 
 COMMAND=$1
 

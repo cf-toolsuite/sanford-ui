@@ -15,7 +15,7 @@ setup)
 
     echo && printf "\e[37mℹ️  Creating user-provided service to hold connection details to an available sanford instance ...\e[m\n" && echo
 
-    cf create-user-provided-service $CONFIG_SERVICE_NAME -p "{\"DOCUMENT_SERVICE_SCHEME\": https, \"DOCUMENT_SERVICE_HOST\": \"$DOCUMENT_SERVICE_HOST\", \"DOCUMENT_SERVICE_PORT\": \"443\" }" -w
+    cf create-user-provided-service $CONFIG_SERVICE_NAME -p "{\"DOCUMENT_SERVICE_SCHEME\": \"https\", \"DOCUMENT_SERVICE_HOST\": \"$DOCUMENT_SERVICE_HOST\", \"DOCUMENT_SERVICE_PORT\": \"443\" }" -w
 
     echo && printf "\e[37mℹ️  Deploying $APP_NAME application ...\e[m\n" && echo
     cf push $APP_NAME -k 1GB -m 1GB -p build/libs/$APP_NAME-$APP_VERSION.jar --no-start --random-route

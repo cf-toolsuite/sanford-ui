@@ -23,8 +23,6 @@ public abstract class BaseView extends VerticalLayout {
 
     protected abstract void setupUI();
 
-    protected abstract void uploadRequest(InputStream stream, String fileName);
-
     protected abstract void clearAllFields();
 
     protected void showNotification(String message, NotificationVariant variant) {

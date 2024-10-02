@@ -78,7 +78,6 @@ public class UploadView extends BaseView {
         autoSizeFields();
     }
 
-    @Override
     protected void uploadRequest(InputStream stream, String fileName) {
         String fileExtension = FilenameUtils.getExtension(fileName);
         String contentType = supportedContentTypes.get(fileExtension);
@@ -87,7 +86,7 @@ public class UploadView extends BaseView {
             if (response.getStatusCode().is2xxSuccessful()) {
                 showNotification("Upload request successful \n" + response.getBody(), NotificationVariant.LUMO_SUCCESS);
             } else {
-                String errorMessage = "Error submitting ingest request. Status code: " + response.getStatusCode();
+                String errorMessage = "Error submitting upload request. Status code: " + response.getStatusCode();
                 if (response.getBody() != null) {
                     errorMessage += ". Message: " + response.getBody().toString();
                 }

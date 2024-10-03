@@ -26,7 +26,6 @@ public abstract class BaseView extends VerticalLayout {
     protected void showNotification(String message, NotificationVariant variant) {
         Notification notification = new Notification(message);
         notification.setPosition(Notification.Position.TOP_CENTER);
-        notification.setDuration(0);
         notification.addThemeVariants(variant);
 
         Div content = new Div();

@@ -1,11 +1,15 @@
 package org.cftoolsuite.ui.view;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.ui.MainLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.vaadin.olli.FileDownloadWrapper;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
@@ -14,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 
 import jakarta.annotation.PostConstruct;
 
@@ -24,7 +29,7 @@ public class DownloadView extends BaseView {
     private static final Logger log = LoggerFactory.getLogger(UploadView.class);
 
     private TextField fileName;
-    private Button submitButton;
+    private Button downloadButton;
     private Button clearButton;
     private HorizontalLayout buttons;
 
@@ -45,15 +50,20 @@ public class DownloadView extends BaseView {
         this.fileName = new TextField("File name");
         this.fileName.setRequired(true);
         this.fileName.setHelperText("Specify the name of the file you would like to download.");
-        this.submitButton = new Button("Submit");
+        this.downloadButton = new Button("Download");
         this.clearButton = new Button("Clear");
         this.buttons = new HorizontalLayout();
 
-        buttons.add(submitButton, clearButton);
+        FileDownloadWrapper wrapper = new FileDownloadWrapper(
+            new StreamResource(fileName.getValue(), () -> getFileContent(fileName.getValue()))
+        );
+        wrapper.wrapComponent(downloadButton);
+        wrapper.setFileName(fileName.getValue());
+
+        buttons.add(wrapper, clearButton);
 
         buttons.setAlignItems(Alignment.CENTER);
         buttons.setJustifyContentMode(JustifyContentMode.CENTER);
-        submitButton.addClickListener(event -> downloadRequest());
         clearButton.addClickListener(event -> clearAllFields());
 
         add(
@@ -65,22 +75,21 @@ public class DownloadView extends BaseView {
         autoSizeFields();
     }
 
-    protected void downloadRequest() {
+    private InputStream getFileContent(String fileName) {
         try {
-            ResponseEntity<Resource> response = sanfordClient.downloadFile(fileName.getValue());
-            if (response.getStatusCode().is2xxSuccessful()) {
-                showNotification("Document downloaded successfully", NotificationVariant.LUMO_SUCCESS);
+            ResponseEntity<Resource> response = sanfordClient.downloadFile(fileName);
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return response.getBody().getInputStream();
             } else {
-                String errorMessage = "Error submitting download request. Status code: " + response.getStatusCode();
-                if (response.getBody() != null) {
-                    errorMessage += ". Message: " + response.getBody().toString();
-                }
+                String errorMessage = "Error downloading file. Status code: " + response.getStatusCode();
                 showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
+                return new ByteArrayInputStream(new byte[0]);
             }
         } catch (Exception e) {
             String errorMessage = "An unexpected error occurred: " + e.getMessage();
             showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
             log.error("An unexpected error occurred", e);
+            return new ByteArrayInputStream(new byte[0]);
         }
     }
 

@@ -113,6 +113,7 @@ public class SearchView extends BaseView {
     @Override
     protected void clearAllFields() {
         query.clear();
+        grid.getDataProvider().refreshAll();
     }
 
     private void autoSizeFields() {

@@ -109,6 +109,7 @@ public class ListView extends BaseView {
     @Override
     protected void clearAllFields() {
         fileName.clear();
+        grid.getDataProvider().refreshAll();
     }
 
     private void autoSizeFields() {

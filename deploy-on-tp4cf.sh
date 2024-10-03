@@ -35,7 +35,7 @@ setup)
     ;;
 
 teardown)
-    cf unbind-service $CONFIG_SERVICE_NAME -f
+    cf unbind-service $APP_NAME $CONFIG_SERVICE_NAME
 
     cf delete-service $CONFIG_SERVICE_NAME -f
 

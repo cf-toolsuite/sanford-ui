@@ -11,8 +11,6 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.StreamResource;
 
-import java.io.InputStream;
-
 public abstract class BaseView extends VerticalLayout {
 
     protected final SanfordClient sanfordClient;

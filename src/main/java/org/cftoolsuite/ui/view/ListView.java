@@ -1,6 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.cftoolsuite.client.SanfordClient;
@@ -12,12 +11,10 @@ import org.springframework.http.ResponseEntity;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -107,7 +104,6 @@ public class ListView extends BaseView {
 
     private void populateGrid(List<FileMetadata> fileMetadataList) {
         grid.setItems(fileMetadataList);
-        grid.sort(Arrays.asList(new GridSortOrder<>(grid.getColumnByKey("fileName"), SortDirection.ASCENDING)));
     }
 
     @Override

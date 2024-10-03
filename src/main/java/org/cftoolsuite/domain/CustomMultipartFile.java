@@ -4,18 +4,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
-public class CustomMultipartFile implements MultipartFile {
+public class CustomMultipartFile implements MultipartFile, Serializable {
 
     private final String name;
     private final String originalFilename;
     private final String contentType;
     private final byte[] content;
 
-    public CustomMultipartFile(String name, String originalFilename, String contentType, InputStream inputStream) throws IOException {
+    public CustomMultipartFile(String name, String originalFilename, String contentType, byte[] content) throws IOException {
         this.name = name;
         this.originalFilename = originalFilename;
         this.contentType = contentType;
-        this.content = inputStream.readAllBytes();
+        this.content = content;
     }
 
     @Override

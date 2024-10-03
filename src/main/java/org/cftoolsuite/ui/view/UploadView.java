@@ -1,5 +1,6 @@
 package org.cftoolsuite.ui.view;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.cftoolsuite.ui.MainLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
@@ -82,7 +84,10 @@ public class UploadView extends BaseView {
         String fileExtension = FilenameUtils.getExtension(fileName);
         String contentType = supportedContentTypes.get(fileExtension);
         try {
-            ResponseEntity<FileMetadata> response = sanfordClient.uploadFile(new CustomMultipartFile("fileName", fileName, contentType, stream));
+            byte[] content = stream.readAllBytes();
+            MultipartFile multipartFile = new CustomMultipartFile("file", fileName, contentType, content);
+
+            ResponseEntity<FileMetadata> response = sanfordClient.uploadFile(multipartFile);
             if (response.getStatusCode().is2xxSuccessful()) {
                 showNotification("Upload request successful \n" + response.getBody(), NotificationVariant.LUMO_SUCCESS);
             } else {
@@ -92,7 +97,7 @@ public class UploadView extends BaseView {
                 }
                 showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             String errorMessage = "An unexpected error occurred: " + e.getMessage();
             showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
             log.error("An unexpected error occurred", e);

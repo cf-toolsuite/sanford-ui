@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @FeignClient(name = "document-service", url = "${document.service.url}")
 public interface SanfordClient {
 
-    @PostMapping(value = "/api/files/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<FileMetadata> uploadFile(@RequestParam("fileName") MultipartFile file);
+    @PostMapping(value = "/api/files/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<FileMetadata> uploadFile(@RequestPart("fileName") MultipartFile file);
 
     @GetMapping(value = "/api/files", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> getFileMetadata(@RequestParam(value = "fileName", required = false) String fileName);

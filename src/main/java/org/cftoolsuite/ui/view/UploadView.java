@@ -2,6 +2,7 @@ package org.cftoolsuite.ui.view;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
@@ -54,7 +55,10 @@ public class UploadView extends BaseView {
     protected void setupUI() {
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
         int numberOfSupportedContentTypes = supportedContentTypes.size();
-        String[] acceptedFileTypes = supportedContentTypes.values().toArray(new String[numberOfSupportedContentTypes]);
+        List<String> acceptedFileExtensions = supportedContentTypes.keySet().stream().map(k -> String.format(".%s", k)).toList();
+        List<String> acceptedContentTypes = supportedContentTypes.values().stream().toList();
+        List<String> combinedList = List.of(acceptedFileExtensions, acceptedContentTypes).stream().flatMap(List::stream).toList();
+        String[] acceptedFileTypes = combinedList.toArray(new String[numberOfSupportedContentTypes]);
         upload = new Upload(buffer);
         upload.setDropAllowed(true);
         upload.setAcceptedFileTypes(acceptedFileTypes);

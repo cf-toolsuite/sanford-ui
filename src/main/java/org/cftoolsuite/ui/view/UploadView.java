@@ -54,7 +54,7 @@ public class UploadView extends BaseView {
     @Override
     protected void setupUI() {
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
-        int numberOfSupportedContentTypes = supportedContentTypes.size();
+        int numberOfSupportedContentTypes = supportedContentTypes.size() * 2;
         List<String> acceptedFileExtensions = supportedContentTypes.keySet().stream().map(k -> String.format(".%s", k)).toList();
         List<String> acceptedContentTypes = supportedContentTypes.values().stream().toList();
         List<String> combinedList = List.of(acceptedFileExtensions, acceptedContentTypes).stream().flatMap(List::stream).toList();

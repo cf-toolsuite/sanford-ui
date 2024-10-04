@@ -1,5 +1,15 @@
 # Sanford UI
 
+* [How to Run with Gradle](#how-to-run-with-gradle)
+  * [targeting an instance of Sanford](#targeting-an-instance-of-sanford)
+* [How to run on Cloud Foundry](#how-to-run-on-cloud-foundry)
+  * [Target a foundation](#target-a-foundation)
+  * [Authenticate](#authenticate)
+  * [Target space](#target-space)
+  * [Clone and build the app](#clone-and-build-the-app)
+  * [Deploy](#deploy)
+* [How to run on Kubernetes](#how-to-run-on-kubernetes)
+
 ## How to Run with Gradle
 
 Open a terminal shell and execute

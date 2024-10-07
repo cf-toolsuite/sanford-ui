@@ -7,6 +7,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.StreamResource;
@@ -24,7 +25,7 @@ public abstract class BaseView extends VerticalLayout {
     protected abstract void clearAllFields();
 
     protected void showNotification(String message, NotificationVariant variant) {
-        Notification notification = new Notification(message);
+        Notification notification = new Notification(message, 5000, Position.TOP_STRETCH);
         notification.setPosition(Notification.Position.TOP_CENTER);
         notification.addThemeVariants(variant);
 

@@ -1,17 +1,21 @@
 package org.cftoolsuite.ui.view;
 
-import org.apache.commons.lang3.StringUtils;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.ui.MainLayout;
+import org.cftoolsuite.ui.component.Markdown;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -28,7 +32,6 @@ public class SummarizeView extends BaseView {
     private Button submitButton;
     private Button clearButton;
     private HorizontalLayout buttons;
-    private TextArea summary;
 
     public SummarizeView(SanfordClient sanfordClient) {
         super(sanfordClient);
@@ -58,15 +61,10 @@ public class SummarizeView extends BaseView {
         submitButton.addClickListener(event -> summarizeRequest());
         clearButton.addClickListener(event -> clearAllFields());
 
-        summary = new TextArea();
-        summary.setLabel("Summary");
-        summary.setReadOnly(true);
-
         add(
             new H2("Summarize a document"),
             fileName,
-            buttons,
-            summary
+            buttons
         );
 
         autoSizeFields();
@@ -75,41 +73,46 @@ public class SummarizeView extends BaseView {
     protected void summarizeRequest() {
         try {
             ResponseEntity<String> response = sanfordClient.summarize(fileName.getValue());
-            if (response.getStatusCode().is2xxSuccessful()) {
-                String result = response.getBody();
-                if (StringUtils.isNotBlank(result)) {
-                    populateTextArea(result);
-                    showNotification("Document summary retrieved successfully", NotificationVariant.LUMO_SUCCESS);
-                } else {
-                    summary.clear();
-                    showNotification("No document summary available", NotificationVariant.LUMO_CONTRAST);
-                }
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                Dialog summaryDialog = new Dialog();
+                summaryDialog.setWidth("800px");
+
+                H3 title = new H3("Summary for " + fileName);
+
+                Div contentWrapper = new Div();
+                contentWrapper.setWidthFull();
+                contentWrapper.getStyle()
+                    .set("max-height", "600px")
+                    .set("overflow-y", "auto");
+
+                Markdown markdown = new Markdown(response.getBody());
+                contentWrapper.add(markdown);
+
+                Button closeButton = new Button("Close", e -> summaryDialog.close());
+                closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+                HorizontalLayout buttonLayout = new HorizontalLayout(closeButton);
+                buttonLayout.setJustifyContentMode(JustifyContentMode.END);
+                buttonLayout.setWidthFull();
+
+                VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+                summaryDialog.add(layout);
+                summaryDialog.open();
             } else {
-                String errorMessage = "Error submitting list request. Status code: " + response.getStatusCode();
-                if (response.getBody() != null) {
-                    errorMessage += ". Message: " + response.getBody().toString();
-                }
-                showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
+                showNotification("Error fetching summary", NotificationVariant.LUMO_ERROR);
             }
         } catch (Exception e) {
-            String errorMessage = "An unexpected error occurred: " + e.getMessage();
-            showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
-            log.error("An unexpected error occurred", e);
+            log.error("Error fetching summary", e);
+            showNotification("Error fetching summary: " + e.getMessage(), NotificationVariant.LUMO_ERROR);
         }
-    }
-
-    private void populateTextArea(String text) {
-        summary.setValue(text);
     }
 
     @Override
     protected void clearAllFields() {
         fileName.clear();
-        summary.clear();
     }
 
     private void autoSizeFields() {
         fileName.setWidth("240px");
-        summary.setWidth("480px");
     }
 }

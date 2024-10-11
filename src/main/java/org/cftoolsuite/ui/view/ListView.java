@@ -170,8 +170,6 @@ public class ListView extends BaseView {
     }
 
     protected void showSummary(String fileName) {
-        H3 title = new H3("Summary for " + fileName);
-
         Div contentWrapper = new Div();
         contentWrapper.setWidthFull();
         contentWrapper.getStyle()
@@ -190,26 +188,26 @@ public class ListView extends BaseView {
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
         buttonLayout.setWidthFull();
 
-        VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+        VerticalLayout layout = new VerticalLayout(contentWrapper, buttonLayout);
 
         summaryDialog.setWidth("800px");
         summaryDialog.add(layout);
 
         summaryDialog.addAttachListener(attachEvent -> {
             UI ui = attachEvent.getUI();
-            StringBuilder fullContent = new StringBuilder();
 
             Disposable subscription = summaryService.getSummary(fileName)
+                .log()
                 .subscribe(
                     chunk -> ui.access(() -> {
-                        fullContent.append(chunk);
-                        markdown.setMarkdown(fullContent.toString());
+                        markdown.addMarkdown(chunk);
                     }),
                     error -> ui.access(() -> {
                         log.error("Error fetching summary", error);
                         showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
                     }),
                     () -> ui.access(() -> {
+                        markdown.render();
                         showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
                     })
                 );

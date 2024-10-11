@@ -13,7 +13,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -75,8 +74,6 @@ public class SummarizeView extends BaseView {
     }
 
     protected void summarizeRequest() {
-        H3 title = new H3("Summary for " + fileName.getValue());
-
         Div contentWrapper = new Div();
         contentWrapper.setWidthFull();
         contentWrapper.getStyle()
@@ -95,26 +92,25 @@ public class SummarizeView extends BaseView {
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
         buttonLayout.setWidthFull();
 
-        VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+        VerticalLayout layout = new VerticalLayout(contentWrapper, buttonLayout);
 
         summaryDialog.setWidth("800px");
         summaryDialog.add(layout);
 
         summaryDialog.addAttachListener(attachEvent -> {
             UI ui = attachEvent.getUI();
-            StringBuilder fullContent = new StringBuilder();
 
             Disposable subscription = summaryService.getSummary(fileName.getValue())
                 .subscribe(
                     chunk -> ui.access(() -> {
-                        fullContent.append(chunk).append("\n");
-                        markdown.setMarkdown(fullContent.toString());
+                        markdown.addMarkdown(chunk);
                     }),
                     error -> ui.access(() -> {
                         log.error("Error fetching summary", error);
                         showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
                     }),
                     () -> ui.access(() -> {
+                        markdown.render();
                         showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
                     })
                 );

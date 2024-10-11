@@ -1,12 +1,13 @@
 package org.cftoolsuite.ui.view;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.service.SummaryService;
 import org.cftoolsuite.ui.MainLayout;
 import org.cftoolsuite.ui.component.Markdown;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -32,9 +33,11 @@ public class SummarizeView extends BaseView {
     private Button submitButton;
     private Button clearButton;
     private HorizontalLayout buttons;
+    private SummaryService summaryService;
 
-    public SummarizeView(SanfordClient sanfordClient) {
+    public SummarizeView(SanfordClient sanfordClient, SummaryService summaryService) {
         super(sanfordClient);
+        this.summaryService = summaryService;
     }
 
     @PostConstruct
@@ -71,40 +74,48 @@ public class SummarizeView extends BaseView {
     }
 
     protected void summarizeRequest() {
-        try {
-            ResponseEntity<String> response = sanfordClient.summarize(fileName.getValue());
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                Dialog summaryDialog = new Dialog();
-                summaryDialog.setWidth("800px");
+        Dialog summaryDialog = new Dialog();
+        summaryDialog.setWidth("800px");
 
-                H3 title = new H3("Summary for " + fileName);
+        H3 title = new H3("Summary for " + fileName.getValue());
 
-                Div contentWrapper = new Div();
-                contentWrapper.setWidthFull();
-                contentWrapper.getStyle()
-                    .set("max-height", "600px")
-                    .set("overflow-y", "auto");
+        Div contentWrapper = new Div();
+        contentWrapper.setWidthFull();
+        contentWrapper.getStyle()
+            .set("max-height", "600px")
+            .set("overflow-y", "auto");
 
-                Markdown markdown = new Markdown(response.getBody());
-                contentWrapper.add(markdown);
+        Markdown markdown = new Markdown("");
+        contentWrapper.add(markdown);
 
-                Button closeButton = new Button("Close", e -> summaryDialog.close());
-                closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button closeButton = new Button("Close", e -> summaryDialog.close());
+        closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-                HorizontalLayout buttonLayout = new HorizontalLayout(closeButton);
-                buttonLayout.setJustifyContentMode(JustifyContentMode.END);
-                buttonLayout.setWidthFull();
+        HorizontalLayout buttonLayout = new HorizontalLayout(closeButton);
+        buttonLayout.setJustifyContentMode(JustifyContentMode.END);
+        buttonLayout.setWidthFull();
 
-                VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
-                summaryDialog.add(layout);
-                summaryDialog.open();
-            } else {
-                showNotification("Error fetching summary", NotificationVariant.LUMO_ERROR);
-            }
-        } catch (Exception e) {
-            log.error("Error fetching summary", e);
-            showNotification("Error fetching summary: " + e.getMessage(), NotificationVariant.LUMO_ERROR);
-        }
+        VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+        summaryDialog.add(layout);
+        summaryDialog.open();
+
+        UI ui = UI.getCurrent();
+        StringBuilder fullContent = new StringBuilder();
+
+        summaryService.getSummary(fileName.getValue())
+            .subscribe(
+                chunk -> ui.access(() -> {
+                    fullContent.append(chunk).append("\n");
+                    markdown.setMarkdown(fullContent.toString());
+                }),
+                error -> ui.access(() -> {
+                    log.error("Error fetching summary", error);
+                    showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
+                }),
+                () -> ui.access(() -> {
+                    showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
+                })
+            );
     }
 
     @Override

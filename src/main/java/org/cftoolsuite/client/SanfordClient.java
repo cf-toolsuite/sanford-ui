@@ -27,6 +27,7 @@ public interface SanfordClient {
     @GetMapping(value = "/api/files/search", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> search(@RequestParam("q") String query);
 
+    @Deprecated
     @GetMapping(value = "/api/files/summarize/{fileName}", produces = MediaType.TEXT_PLAIN_VALUE)
     ResponseEntity<String> summarize(@PathVariable String fileName);
 

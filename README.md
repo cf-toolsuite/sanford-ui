@@ -10,5 +10,6 @@ Companion UI for [Sanford](https://github.com/cf-toolsuite/sanford)
   * [Clone](docs/CLONING.md)
   * [Build](docs/BUILD.md)
   * [Run](docs/RUN.md)
+* [Credits](docs/CREDITS.md)
 
 ![Sanford logo](src/main/resources/static/sanford.png)

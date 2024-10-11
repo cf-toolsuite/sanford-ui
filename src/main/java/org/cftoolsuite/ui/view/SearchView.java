@@ -36,6 +36,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
 import jakarta.annotation.PostConstruct;
+import reactor.core.Disposable;
 
 @PageTitle("sanford-ui » Search")
 @Route(value = "search", layout = MainLayout.class)
@@ -168,9 +169,6 @@ public class SearchView extends BaseView {
     }
 
     protected void showSummary(String fileName) {
-        Dialog summaryDialog = new Dialog();
-        summaryDialog.setWidth("800px");
-
         H3 title = new H3("Summary for " + fileName);
 
         Div contentWrapper = new Div();
@@ -182,6 +180,8 @@ public class SearchView extends BaseView {
         Markdown markdown = new Markdown("");
         contentWrapper.add(markdown);
 
+        Dialog summaryDialog = new Dialog();
+
         Button closeButton = new Button("Close", e -> summaryDialog.close());
         closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -190,26 +190,33 @@ public class SearchView extends BaseView {
         buttonLayout.setWidthFull();
 
         VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+
+        summaryDialog.setWidth("800px");
         summaryDialog.add(layout);
+
+        summaryDialog.addAttachListener(attachEvent -> {
+            UI ui = attachEvent.getUI();
+            StringBuilder fullContent = new StringBuilder();
+
+            Disposable subscription = summaryService.getSummary(fileName)
+                .subscribe(
+                    chunk -> ui.access(() -> {
+                        fullContent.append(chunk).append("\n");
+                        markdown.setMarkdown(fullContent.toString());
+                    }),
+                    error -> ui.access(() -> {
+                        log.error("Error fetching summary", error);
+                        showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
+                    }),
+                    () -> ui.access(() -> {
+                        showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
+                    })
+                );
+
+            summaryDialog.addDetachListener(detachEvent -> subscription.dispose());
+        });
+
         summaryDialog.open();
-
-        UI ui = UI.getCurrent();
-        StringBuilder fullContent = new StringBuilder();
-
-        summaryService.getSummary(fileName)
-            .subscribe(
-                chunk -> ui.access(() -> {
-                    fullContent.append(chunk).append("\n");
-                    markdown.setMarkdown(fullContent.toString());
-                }),
-                error -> ui.access(() -> {
-                    log.error("Error fetching summary", error);
-                    showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
-                }),
-                () -> ui.access(() -> {
-                    showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
-                })
-            );
     }
 
     protected void deleteFile(String fileName) {

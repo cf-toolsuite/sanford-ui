@@ -20,7 +20,7 @@ import jakarta.annotation.PostConstruct;
 @Route(value = "delete", layout = MainLayout.class)
 public class DeleteView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadView.class);
+    private static final Logger log = LoggerFactory.getLogger(DeleteView.class);
 
     private TextField fileName;
     private Button submitButton;

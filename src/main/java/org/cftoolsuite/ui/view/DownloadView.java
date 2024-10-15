@@ -26,7 +26,7 @@ import jakarta.annotation.PostConstruct;
 @Route(value = "download", layout = MainLayout.class)
 public class DownloadView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadView.class);
+    private static final Logger log = LoggerFactory.getLogger(DownloadView.class);
 
     private TextField fileName;
     private Button downloadButton;

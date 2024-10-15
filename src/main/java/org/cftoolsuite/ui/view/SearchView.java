@@ -39,7 +39,7 @@ import jakarta.annotation.PostConstruct;
 @Route(value = "search", layout = MainLayout.class)
 public class SearchView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadView.class);
+    private static final Logger log = LoggerFactory.getLogger(SearchView.class);
 
     private TextField query;
     private Button submitButton;

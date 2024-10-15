@@ -39,7 +39,7 @@ import jakarta.annotation.PostConstruct;
 @Route(value = "list", layout = MainLayout.class)
 public class ListView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadView.class);
+    private static final Logger log = LoggerFactory.getLogger(ListView.class);
 
     private TextField fileName;
     private Button submitButton;

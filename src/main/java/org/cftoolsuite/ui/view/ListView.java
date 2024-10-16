@@ -23,7 +23,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -176,7 +175,7 @@ public class ListView extends BaseView {
             .set("max-height", "600px")
             .set("overflow-y", "auto");
 
-        Markdown markdown = new Markdown("");
+        Markdown markdown = new Markdown();
         contentWrapper.add(markdown);
 
         Dialog summaryDialog = new Dialog();
@@ -200,14 +199,13 @@ public class ListView extends BaseView {
                 .log()
                 .subscribe(
                     chunk -> ui.access(() -> {
-                        markdown.addMarkdown(chunk);
+                        markdown.setSource(chunk);
                     }),
                     error -> ui.access(() -> {
                         log.error("Error fetching summary", error);
                         showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
                     }),
                     () -> ui.access(() -> {
-                        markdown.render();
                         showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
                     })
                 );

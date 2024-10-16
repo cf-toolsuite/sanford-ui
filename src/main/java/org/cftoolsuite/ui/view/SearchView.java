@@ -174,7 +174,7 @@ public class SearchView extends BaseView {
             .set("max-height", "600px")
             .set("overflow-y", "auto");
 
-        Markdown markdown = new Markdown("");
+        Markdown markdown = new Markdown();
         contentWrapper.add(markdown);
 
         Dialog summaryDialog = new Dialog();
@@ -197,14 +197,13 @@ public class SearchView extends BaseView {
             Disposable subscription = summaryService.getSummary(fileName)
                 .subscribe(
                     chunk -> ui.access(() -> {
-                        markdown.addMarkdown(chunk);
+                        markdown.setSource(chunk);
                     }),
                     error -> ui.access(() -> {
                         log.error("Error fetching summary", error);
                         showNotification("Error fetching summary: " + error.getMessage(), NotificationVariant.LUMO_ERROR);
                     }),
                     () -> ui.access(() -> {
-                        markdown.render();
                         showNotification("Summary completed", NotificationVariant.LUMO_SUCCESS);
                     })
                 );

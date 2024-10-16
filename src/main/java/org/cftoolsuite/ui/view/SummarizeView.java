@@ -27,7 +27,7 @@ import reactor.core.Disposable;
 @Route(value = "summarize", layout = MainLayout.class)
 public class SummarizeView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(UploadView.class);
+    private static final Logger log = LoggerFactory.getLogger(SummarizeView.class);
 
     private TextField fileName;
     private Button submitButton;

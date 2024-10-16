@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'io.github.openfeign:feign-hc5:13.4'
+	implementation 'io.github.openfeign:feign-hc5:13.5'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
 	implementation 'org.vaadin.olli:file-download-wrapper:7.1.0'
 	implementation 'org.commonmark:commonmark:0.23.0'

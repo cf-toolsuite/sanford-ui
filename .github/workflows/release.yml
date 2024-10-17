@@ -16,11 +16,14 @@ jobs:
       statuses: read
     steps:
       - uses: actions/checkout@v4
+      - uses: gradle/actions/wrapper-validation@v4
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: liberica
           java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Install GitHub CLI
         run: |
           sudo apt update && sudo apt install gh -y
@@ -29,6 +32,6 @@ jobs:
           ./gradlew clean setVersion -PnewVersion=${{ github.event.release.tag_name }} build -Dvaadin.productionMode=true
           SUFFIX="${{ github.event.release.tag_name }}"
           echo "Uploading sanford-ui-$SUFFIX.jar to release ${{ github.event.release.tag_name }}"
-          gh release upload "${{ github.event.release.tag_name }}" build/libs/sanford-ui-${{ github.event.release.tag_name }}.jar --clobber
+          gh release upload "${{ github.event.release.tag_name }}" $GITHUB_WORKSPACE/build/libs/sanford-ui-${{ github.event.release.tag_name }}.jar --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

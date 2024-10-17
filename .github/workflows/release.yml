@@ -1,0 +1,34 @@
+name: Publish package to GitHub Packages
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      actions: read
+      issues: read
+      packages: write
+      pull-requests: read
+      repository-projects: read
+      statuses: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: liberica
+          java-version: 21
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update && sudo apt install gh -y
+      - name: Publish package
+        run: |
+          ./gradlew clean setVersion -PnewVersion=${{ github.event.release.tag_name }} build -Dvaadin.productionMode=true
+          SUFFIX="${{ github.event.release.tag_name }}"
+          echo "Uploading sanford-ui-$SUFFIX.jar to release ${{ github.event.release.tag_name }}"
+          gh release upload "${{ github.event.release.tag_name }}" build/libs/sanford-ui-${{ github.event.release.tag_name }}.jar --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

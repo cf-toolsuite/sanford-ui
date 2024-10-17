@@ -30,8 +30,8 @@ jobs:
       - name: Publish package
         run: |
           ./gradlew clean setVersion -PnewVersion=${{ github.event.release.tag_name }} build -Dvaadin.productionMode=true
-          SUFFIX="${{ github.event.release.tag_name }}"
-          echo "Uploading sanford-ui-$SUFFIX.jar to release ${{ github.event.release.tag_name }}"
-          gh release upload "${{ github.event.release.tag_name }}" $GITHUB_WORKSPACE/build/libs/sanford-ui-${{ github.event.release.tag_name }}.jar --clobber
+          ARTIFACT_PATH=$(./gradlew -q printArtifactPath)
+          echo "Uploading $(basename $ARTIFACT_PATH) to release ${{ github.event.release.tag_name }}"
+          gh release upload "${{ github.event.release.tag_name }}" "$ARTIFACT_PATH" --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

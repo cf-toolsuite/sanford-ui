@@ -11,10 +11,13 @@ jobs:
     name: Java ${{ matrix.java }} build
     steps:
       - uses: actions/checkout@v4
+      - uses: gradle/actions/wrapper-validation@v4
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: liberica
           java-version: ${{ matrix.java }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build -Dvaadin.productionMode=true

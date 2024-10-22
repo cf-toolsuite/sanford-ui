@@ -21,6 +21,9 @@ public interface SanfordClient {
     @PostMapping(value = "/api/files/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<FileMetadata> uploadFile(@RequestPart("fileName") MultipartFile file);
 
+    @GetMapping("/api/files/chat")
+    public ResponseEntity<String> chat(@RequestParam("q") String message);
+
     @GetMapping(value = "/api/files", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> getFileMetadata(@RequestParam(value = "fileName", required = false) String fileName);
 

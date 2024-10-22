@@ -1,5 +1,6 @@
 package org.cftoolsuite.ui;
 
+import org.cftoolsuite.ui.view.ChatView;
 import org.cftoolsuite.ui.view.DeleteView;
 import org.cftoolsuite.ui.view.DownloadView;
 import org.cftoolsuite.ui.view.HomeView;
@@ -35,12 +36,13 @@ public class MainLayout extends AppLayout {
     	Tabs actionTabs = createTabs();
 
     	Tab uploadTab = createTab(VaadinIcon.UPLOAD.create(), "Upload documents", UploadView.class);
+		Tab chatTab = createTab(VaadinIcon.CHAT.create(), "Chat with AI bot about documents", ChatView.class);
 		Tab listTab = createTab(VaadinIcon.LIST.create(), "List document metadata", ListView.class);
 		Tab searchTab = createTab(VaadinIcon.SEARCH.create(), "Search for document metadata", SearchView.class);
     	Tab summaryTab = createTab(VaadinIcon.BULLETS.create(), "Summarize a document", SummarizeView.class);
 		Tab downloadTab = createTab(VaadinIcon.DOWNLOAD.create(), "Download a document", DownloadView.class);
 		Tab deleteTab = createTab(VaadinIcon.TRASH.create(), "Delete a document", DeleteView.class);
-		actionTabs.add(uploadTab, listTab, searchTab, summaryTab, downloadTab, deleteTab);
+		actionTabs.add(uploadTab, chatTab, listTab, searchTab, summaryTab, downloadTab, deleteTab);
     	accordion.add("Actions", actionTabs).addThemeVariants(DetailsVariant.REVERSE);
 
     	addToNavbar(true, homeTab, new DrawerToggle());

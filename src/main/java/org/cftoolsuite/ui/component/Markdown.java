@@ -19,7 +19,7 @@ public class Markdown extends Composite<Div> {
 
     public void setMarkdown(String markdown) {
         getContent().getElement().setProperty("innerHTML",
-                renderer.render(parser.parse(markdown))
+            renderer.render(parser.parse(markdown))
         );
     }
 }

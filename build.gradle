@@ -34,7 +34,7 @@ dependencies {
 	implementation 'org.vaadin.olli:file-download-wrapper:7.1.0'
 	implementation 'org.commonmark:commonmark:0.24.0'
 	implementation 'org.apache.commons:commons-lang3'
-	implementation 'io.pivotal.cfenv:java-cfenv-all:3.2.0'
+	implementation 'io.pivotal.cfenv:java-cfenv-all:3.3.0'
 	implementation 'org.springframework.cloud:spring-cloud-bindings:2.0.3'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'

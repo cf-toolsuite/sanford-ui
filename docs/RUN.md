@@ -201,7 +201,7 @@ Edit the `build/classes/java/main/META-INF/jkube/kubernetes/sanford-ui-deploymen
 
 You should replace occurrences of `YYYY.MM.DD` (e.g., 2024.10.28) with the latest available tag, and save your changes.
 
-> Note: the image tag in Github CR will have a slightly different format (e.g., 20241105.1847.10602)
+> Note: the image tag in Github CR will have a slightly different format (e.g., 20241106.1853.9926)
 
 ### Apply
 
@@ -224,12 +224,10 @@ kubectl apply -f build/classes/java/main/META-INF/jkube/kubernetes.yml
 At this point you'd probably like to interact with sanford, huh?  We need to setup port-forwarding, so execute:
 
 ```bash
-kubectl port-forward service/sanford-ui 8081:8081
+kubectl port-forward service/sanford-ui 8080:8080
 ```
 
-Then visit `http://localhost:8081/actuator/info` in your favorite browser.
-
-Consult the [ENDPOINTS.md](ENDPOINTS.md) documentation to learn about what else you can do.
+Then visit `http://localhost:8080/` in your favorite browser.
 
 When you're done, revisit the terminal where you started port-forwarding and press `Ctrl+C`.
 

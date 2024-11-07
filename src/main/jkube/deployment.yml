@@ -5,11 +5,11 @@ spec:
       - env:
         - name: JAVA_OPTS
           value: "-Djava.security.egd=file:///dev/urandom -XX:+UseZGC -XX:+UseStringDeduplication"
-        - name: DOCUMENT_SCHEME
+        - name: DOCUMENT_SERVICE_SCHEME
           value: "http"
-        - name: DOCUMENT_HOST
+        - name: DOCUMENT_SERVICE_HOST
           value: sanford.default.svc.cluster.local
-        - name: DOCUMENT_PORT
+        - name: DOCUMENT_SERVICE_PORT
           value: "8080"
         - name: SPRING_PROFILES_ACTIVE
           value: default,cloud

@@ -221,7 +221,7 @@ kubectl apply -f build/classes/java/main/META-INF/jkube/kubernetes.yml
 
 ### Setup port forwarding
 
-At this point you'd probably like to interact with sanford, huh?  We need to setup port-forwarding, so execute:
+At this point you'd probably like to interact with sanford-ui, huh?  We need to setup port-forwarding, so execute:
 
 ```bash
 kubectl port-forward service/sanford-ui 8080:8080
@@ -489,5 +489,5 @@ tanzu domain-binding create sanford-ui --domain sanford-ui.sbx.tpk8s.cloudmonk.m
 ### Destroy the app
 
 ```bash
-tanzu app delete sanford -y
+tanzu app delete sanford-ui -y
 ```

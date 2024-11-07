@@ -332,11 +332,11 @@ spec:
       value: "-Djava.security.egd=file:///dev/urandom -XX:+UseZGC -XX:+UseStringDeduplication"
     - name: SPRING_PROFILES_ACTIVE
       value: "default,cloud"
-    - name: DOCUMENT_SCHEME
+    - name: DOCUMENT_SERVICE_SCHEME
       value: "https"
-    - name: DOCUMENT_HOST
+    - name: DOCUMENT_SERVICE_HOST
       value: "REPLACE_ME"
-    - name: DOCUMENT_PORT
+    - name: DOCUMENT_SERVICE_PORT
       value: "443"
   build:
     nonSecretEnv:

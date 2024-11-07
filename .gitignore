@@ -51,3 +51,7 @@ tsconfig.json
 types.d.ts
 node_modules
 vite.*
+
+# Tanzu Platform
+.tanzu/
+tanzu.yml

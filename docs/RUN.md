@@ -481,7 +481,7 @@ tanzu app logs sanford-ui --lines -1
 ### Establish a domain binding
 
 ```bash
-tanzu domain-binding create sanford --domain sanford-ui.sbx.tpk8s.cloudmonk.me --entrypoint main --port 443
+tanzu domain-binding create sanford-ui --domain sanford-ui.sbx.tpk8s.cloudmonk.me --entrypoint main --port 443
 ```
 
 > Replace the portion of the value of `--domain` before the application name above with your own sub-domain (or with one your Platform Engineer setup on your behalf).

@@ -23,7 +23,7 @@
     * [Configuring daemon builds](#configuring-daemon-builds)
     * [Configuring platform builds](#configuring-platform-builds)
     * [Validating build configuration](#validating-build-configuration)
-  * [Deploy application with service bindings](#deploy-application-with-service-bindings)
+  * [Deploy application](#deploy-application)
   * [Establish a domain binding](#establish-a-domain-binding)
   * [Destroy the app](#destroy-the-app)
 
@@ -465,7 +465,7 @@ experimentalFeatures: false
 tanzu build -o .tanzu/build
 ```
 
-### Deploy application with service bindings
+### Deploy application
 
 ```bash
 tanzu deploy --from-build .tanzu/build -y

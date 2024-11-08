@@ -372,7 +372,7 @@ spec:
       periodSeconds: 2
 ```
 
-> Replace the value of `REPLACE_ME` for `DOCUMENT_HOST` above with the URL to an instance of `sanford`.
+> Replace the value of `REPLACE_ME` for `DOCUMENT_SERVICE_HOST` above with the URL to an instance of `sanford`.
 
 #### Configuring daemon builds
 

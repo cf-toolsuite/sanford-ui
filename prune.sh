@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export BACKUP_LOC=/tmp/sanford/$(date +"%Y.%m.%d.%N" | cut -b1-14)
+export BACKUP_LOC=/tmp/sanford-ui/$(date +"%Y.%m.%d.%N" | cut -b1-14)
 mkdir -p $BACKUP_LOC
 
 # Candidates to be pruned

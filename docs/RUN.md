@@ -343,7 +343,7 @@ spec:
     - name: BP_JVM_VERSION
       value: "21"
     - name: BP_GRADLE_BUILD_ARGUMENTS
-      value: "-Dvaadin.production.mode=true"
+      value: "clean build -Dvaadin.production.mode=true"
     buildpacks: {}
     path: ../..
   contact:

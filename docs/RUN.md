@@ -195,7 +195,7 @@ export KUBECONFIG=/path/to/.kube/config
 
 ### Prepare
 
-Consult GitHub CR for the latest available tagged image, [here](https://github.com/cf-toolsuite/sanford-ui/pkgs/container/sanford-ui).
+Consult GitHub CR for the latest available tagged image, [here](https://github.com/orgs/cf-toolsuite/packages/container/package/sanford-ui).
 
 Edit the `build/classes/java/main/META-INF/jkube/kubernetes/sanford-ui-deployment.yml` and `build/classes/java/main/META-INF/jkube/kubernetes/sanford-ui-service.yml` files
 

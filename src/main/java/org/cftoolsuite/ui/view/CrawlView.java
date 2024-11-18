@@ -30,7 +30,6 @@ public class CrawlView extends BaseView {
 
     private TextField rootDomain;
     private TextArea seeds;
-    private TextField includesRegexFilter;
     private Button crawlButton;
     private Button clearButton;
     private HorizontalLayout buttons;
@@ -52,11 +51,11 @@ public class CrawlView extends BaseView {
         this.rootDomain = new TextField("Root domain");
         this.rootDomain.setRequired(true);
         this.rootDomain.setHelperText("The root domain of the website you want to crawl which may also include sub-paths.");
+
         this.seeds = new TextArea("Seeds");
         this.seeds.setRequired(true);
-        this.seeds.setHelperText("A comma-separated list of seeds from which to execute crawling from.  Each seed should be an additional sub-path from the root domain.  Links found within each file found will be crawled so long as they match filter.  The crawling algorithm is also constrained to a maximum depth of 5.");
-        this.includesRegexFilter = new TextField("Regex-based includes filter");
-        this.includesRegexFilter.setHelperText("A regex-based filter that will impact what files are crawled based upon file extensions. If left blank, the default will be .*(\\\\.(htm|html))$ .");
+        this.seeds.setHelperText("A comma-separated list of seeds from which to execute crawling from. Each seed should be an additional sub-path from the root domain. Links found within each file found will be crawled so long as they match filter. The crawling algorithm is also constrained to a maximum depth of 5.");
+
         this.crawlButton = new Button("Crawl");
         this.clearButton = new Button("Clear");
         this.buttons = new HorizontalLayout();
@@ -72,7 +71,6 @@ public class CrawlView extends BaseView {
             new H2("Crawl a website"),
             rootDomain,
             seeds,
-            includesRegexFilter,
             buttons
         );
 
@@ -81,8 +79,14 @@ public class CrawlView extends BaseView {
 
     protected void crawlRequest() {
         try {
-            CrawlRequest request =
-                new CrawlRequest(rootDomain.getValue(), convertToArray(seeds.getValue()), null, null, includesRegexFilter.getValue(), null);
+            CrawlRequest request = new CrawlRequest(
+                rootDomain.getValue(),
+                convertToArray(seeds.getValue()),
+                null,
+                null,
+                null
+            );
+
             ResponseEntity<CrawlResponse> response = sanfordClient.startCrawl(request);
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 showNotification("Completed crawling website", NotificationVariant.LUMO_SUCCESS);
@@ -107,12 +111,10 @@ public class CrawlView extends BaseView {
     protected void clearAllFields() {
         rootDomain.clear();
         seeds.clear();
-        includesRegexFilter.clear();
     }
 
     private void autoSizeFields() {
         rootDomain.setWidth("480px");
         seeds.setWidth("480px");
-        includesRegexFilter.setWidth("240px");
     }
 }

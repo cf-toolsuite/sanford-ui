@@ -62,18 +62,6 @@ app:
     docx: application/vnd.openxmlformats-officedocument.wordprocessingml.document
     ppt: application/vnd.ms-powerpoint
     pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-  supportedFileFilters:
-    md: "(?i).+\\.md$"
-    pdf: "(?i).+\\.pdf$"
-    log: "(?i).+\\.log$"
-    txt: "(?i).+\\.txt$"
-    csv: "(?i).+\\.csv$"
-    tsv: "(?i).+\\.tsv$"
-    json: "(?i).+\\.json$"
-    xml: "(?i).+\\.xml$"
-    html: "(?i).+\\.html?$"
-    doc: "(?i).+\\.docx?$"
-    ppt: "(?i).+\\.pptx?$"
 
 document:
   service:

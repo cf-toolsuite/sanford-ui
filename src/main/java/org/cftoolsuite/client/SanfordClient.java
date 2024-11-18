@@ -5,6 +5,8 @@ import java.util.List;
 import org.cftoolsuite.domain.FileMetadata;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
 import org.cftoolsuite.domain.crawl.CrawlResponse;
+import org.cftoolsuite.domain.fetch.FetchRequest;
+import org.cftoolsuite.domain.fetch.FetchResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -24,8 +26,11 @@ public interface SanfordClient {
     @PostMapping(value = "/api/files/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<FileMetadata> uploadFile(@RequestPart("fileName") MultipartFile file);
 
-    @PostMapping("/crawl")
+    @PostMapping("/api/crawl")
     public ResponseEntity<CrawlResponse> startCrawl(@RequestBody CrawlRequest crawlRequest);
+
+    @PostMapping("/api/fetch")
+    public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
 
     @GetMapping("/api/files/chat")
     public ResponseEntity<String> chat(@RequestParam("q") String message);

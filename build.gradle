@@ -1,9 +1,9 @@
 plugins {
 	id 'java'
-	id 'com.vaadin' version '24.5.7'
+	id 'com.vaadin' version '24.5.8'
 	id 'org.cyclonedx.bom' version '1.10.0'
 	id 'com.gorylenko.gradle-git-properties' version '2.4.2'
-	id 'org.springframework.boot' version '3.3.5'
+	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.eclipse.jkube.kubernetes' version '1.17.0'
 }
@@ -22,8 +22,8 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2023.0.3")
-	set('vaadinVersion', "24.5.4")
+	set('springCloudVersion', "2024.0.0")
+	set('vaadinVersion', "24.5.8")
 }
 
 dependencies {

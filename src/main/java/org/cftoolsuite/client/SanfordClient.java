@@ -1,6 +1,7 @@
 package org.cftoolsuite.client;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cftoolsuite.domain.FileMetadata;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
@@ -32,8 +33,11 @@ public interface SanfordClient {
     @PostMapping("/api/fetch")
     public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
 
-    @GetMapping("/api/files/chat")
-    public ResponseEntity<String> chat(@RequestParam("q") String message);
+    @GetMapping("/api/chat")
+    public ResponseEntity<String> chat(
+            @RequestParam("q") String message,
+            @RequestParam(value = "f", required = false) Map<String, Object> filterMetadata
+    );
 
     @GetMapping(value = "/api/files", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> getFileMetadata(@RequestParam(value = "fileName", required = false) String fileName);

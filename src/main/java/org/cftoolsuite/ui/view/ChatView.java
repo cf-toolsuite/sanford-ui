@@ -4,6 +4,7 @@ package org.cftoolsuite.ui.view;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.ui.MainLayout;
 import org.cftoolsuite.ui.component.Markdown;
+import org.cftoolsuite.ui.component.MetadataFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class ChatView extends BaseView  {
 
     private Div messageList;
     private TextField messageInput;
+    private MetadataFilter metadataFilter;
     private Button sendButton;
     private Button clearButton;
     private HorizontalLayout buttons;
@@ -67,6 +69,10 @@ public class ChatView extends BaseView  {
         messageInput.setPlaceholder("Type a message...");
         messageInput.setWidth("100%");
 
+        metadataFilter = new MetadataFilter();
+        metadataFilter.setWidth("100%");
+        metadataFilter.setLabel("Metadata Filters");
+
         this.buttons = new HorizontalLayout();
         sendButton = new Button("Send");
         sendButton.addClickListener(e -> submitRequest());
@@ -84,7 +90,7 @@ public class ChatView extends BaseView  {
 
         add(new H2("Chat"));
 
-        VerticalLayout inputLayout = new VerticalLayout(typingIndicator, messageInput, buttons);
+        VerticalLayout inputLayout = new VerticalLayout(typingIndicator, messageInput, metadataFilter, buttons);
         inputLayout.setSpacing(false);
         inputLayout.setPadding(false);
 
@@ -104,6 +110,7 @@ public class ChatView extends BaseView  {
     protected void clearAllFields() {
         messageInput.clear();
         messageList.removeAll();
+        metadataFilter.setPresentationValue(null);
     }
 
     private void addMessageToList(String title, String message) {
@@ -123,7 +130,7 @@ public class ChatView extends BaseView  {
     private void getAiBotResponse(String message) {
         showThinkingIndicator();
         try {
-            ResponseEntity<String> response = sanfordClient.chat(message);
+            ResponseEntity<String> response = sanfordClient.chat(message, metadataFilter.getValue());
             if (response.getStatusCode().is2xxSuccessful()) {
                 addMessageToList("AI ChatBot:", response.getBody());
             } else {

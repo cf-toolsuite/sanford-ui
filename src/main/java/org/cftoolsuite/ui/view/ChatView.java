@@ -136,7 +136,7 @@ public class ChatView extends BaseView  {
             } else {
                 String errorMessage = "Error submitting chat request. Status code: " + response.getStatusCode();
                 if (response.getBody() != null) {
-                    errorMessage += ". Message: " + response.getBody().toString();
+                    errorMessage += ". Message: " + response.getBody();
                 }
                 showNotification(errorMessage, NotificationVariant.LUMO_ERROR);
             }

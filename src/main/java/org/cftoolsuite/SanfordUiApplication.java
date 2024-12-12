@@ -1,5 +1,6 @@
 package org.cftoolsuite;
 
+import com.vaadin.flow.component.page.Push;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -10,6 +11,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+@Push
 @SpringBootApplication
 @EnableFeignClients
 @ConfigurationPropertiesScan

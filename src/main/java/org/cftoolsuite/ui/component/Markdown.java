@@ -1,14 +1,16 @@
 package org.cftoolsuite.ui.component;
 
-import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.html.Div;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dependency.NpmPackage;
+import com.vaadin.flow.component.react.ReactAdapterComponent;
 
-public class Markdown extends Composite<Div> {
+@NpmPackage(value = "react-markdown", version = "9.0.1")
+@JsModule("./flow/markdown-component.tsx")
+@Tag("markdown-component")
+public class Markdown extends ReactAdapterComponent {
 
-    Parser parser = Parser.builder().build();
-    HtmlRenderer renderer = HtmlRenderer.builder().build();
+    private String markdown = "";
 
     public Markdown() {
     }
@@ -18,8 +20,20 @@ public class Markdown extends Composite<Div> {
     }
 
     public void setMarkdown(String markdown) {
-        getContent().getElement().setProperty("innerHTML",
-            renderer.render(parser.parse(markdown))
-        );
+        this.markdown = markdown;
+        getElement().executeJs("this.markdown.value = $0", markdown);
+    }
+
+    public void appendMarkdown(String additionalMarkdown) {
+        this.markdown += additionalMarkdown;
+        getElement().executeJs("this.markdown.value += $0", additionalMarkdown);
+    }
+
+    public void clear() {
+        setMarkdown("");
+    }
+
+    public String getMarkdown() {
+        return markdown;
     }
 }

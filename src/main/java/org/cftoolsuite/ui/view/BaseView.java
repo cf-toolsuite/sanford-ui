@@ -1,6 +1,7 @@
 package org.cftoolsuite.ui.view;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.client.SanfordStreamingClient;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -14,10 +15,15 @@ import com.vaadin.flow.server.StreamResource;
 
 public abstract class BaseView extends VerticalLayout {
 
-    protected final SanfordClient sanfordClient;
+    protected SanfordClient sanfordClient;
+    protected SanfordStreamingClient sanfordStreamingClient;
 
     public BaseView(SanfordClient sanfordClient) {
         this.sanfordClient = sanfordClient;
+    }
+
+    public BaseView(SanfordStreamingClient sanfordStreamingClient) {
+        this.sanfordStreamingClient = sanfordStreamingClient;
     }
 
     protected abstract void setupUI();

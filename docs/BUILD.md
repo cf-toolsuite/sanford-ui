@@ -3,6 +3,8 @@
 ## How to Build
 
 ```bash
+npm install @vaadin/hilla-lit-form
+npm install @vaadin/hilla-react-signals
 ./gradlew clean build
 ```
 

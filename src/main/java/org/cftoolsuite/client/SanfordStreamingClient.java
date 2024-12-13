@@ -1,7 +1,5 @@
 package org.cftoolsuite.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +17,9 @@ public class SanfordStreamingClient {
     private static Logger log = LoggerFactory.getLogger(SanfordStreamingClient.class);
 
     private final WebClient webClient;
-    private final ObjectMapper mapper;
 
-    public SanfordStreamingClient(@Value("${document.service.url}") String baseUrl, ObjectMapper mapper) {
+    public SanfordStreamingClient(@Value("${document.service.url}") String baseUrl) {
         this.webClient = WebClient.create(baseUrl);
-        this.mapper = mapper;
     }
 
     public Flux<String> streamResponseToQuestion(String message, Map<String, Object> filterMetadata) {

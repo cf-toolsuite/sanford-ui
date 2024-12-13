@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.domain.fetch.FetchRequest;
 import org.cftoolsuite.domain.fetch.FetchResponse;
 import org.cftoolsuite.ui.MainLayout;
@@ -19,29 +20,19 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Fetch")
 @Route(value = "fetch", layout = MainLayout.class)
 public class FetchView extends BaseView {
 
-    private static final Logger log = LoggerFactory.getLogger(CrawlView.class);
+    private static final Logger log = LoggerFactory.getLogger(FetchView.class);
 
     private TextArea urls;
     private Button fetchButton;
     private Button clearButton;
     private HorizontalLayout buttons;
 
-    public FetchView(SanfordClient sanfordClient) {
-        super(sanfordClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+    public FetchView(SanfordClient sanfordClient, AppProperties appProperties) {
+        super(sanfordClient, appProperties);
     }
 
     @Override

@@ -16,11 +16,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Chat")
 @Route(value = "chat", layout = MainLayout.class)
-public class ChatView extends BaseView  {
+public class ChatView extends BaseStreamingView  {
 
     private TextField messageInput;
     private MetadataFilter metadataFilter;
@@ -31,14 +29,6 @@ public class ChatView extends BaseView  {
 
     public ChatView(SanfordStreamingClient sanfordStreamingClient) {
         super(sanfordStreamingClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
     }
 
     @Override

@@ -1,7 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import org.cftoolsuite.client.SanfordClient;
-
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
@@ -9,18 +7,14 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.cftoolsuite.domain.AppProperties;
+import org.cftoolsuite.client.SanfordStreamingClient;
 
-import java.util.Map;
+public abstract class BaseStreamingView extends VerticalLayout {
 
-public abstract class BaseView extends VerticalLayout {
+    protected SanfordStreamingClient sanfordStreamingClient;
 
-    protected SanfordClient sanfordClient;
-    Map<String, String> supportedContentTypes;
-
-    public BaseView(SanfordClient sanfordClient, AppProperties appProperties) {
-        this.sanfordClient = sanfordClient;
-        this.supportedContentTypes = appProperties.supportedContentTypes();
+    public BaseStreamingView(SanfordStreamingClient sanfordStreamingClient) {
+        this.sanfordStreamingClient = sanfordStreamingClient;
         setupUI();
     }
 
@@ -30,7 +24,7 @@ public abstract class BaseView extends VerticalLayout {
 
     protected void showNotification(String message, NotificationVariant variant) {
         Notification notification = new Notification(message, 5000, Position.TOP_STRETCH);
-        notification.setPosition(Notification.Position.TOP_CENTER);
+        notification.setPosition(Position.TOP_CENTER);
         notification.addThemeVariants(variant);
 
         Div content = new Div();

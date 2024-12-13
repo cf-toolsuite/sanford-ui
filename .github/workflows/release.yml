@@ -18,6 +18,14 @@ jobs:
         with:
           distribution: liberica
           java-version: 21
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install npm packages
+        run: |
+          npm install @vaadin/hilla-lit-form
+          npm install @vaadin/hilla-react-signals
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build artifact

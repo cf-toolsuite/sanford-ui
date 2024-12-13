@@ -1,9 +1,14 @@
 package org.cftoolsuite.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
@@ -11,36 +16,35 @@ import java.util.Map;
 @Component
 public class SanfordStreamingClient {
 
-    private final WebClient webClient;
+    private static Logger log = LoggerFactory.getLogger(SanfordStreamingClient.class);
 
-    public SanfordStreamingClient(@Value("${document.service.url}") String baseUrl) {
+    private final WebClient webClient;
+    private final ObjectMapper mapper;
+
+    public SanfordStreamingClient(@Value("${document.service.url}") String baseUrl, ObjectMapper mapper) {
         this.webClient = WebClient.create(baseUrl);
+        this.mapper = mapper;
     }
 
     public Flux<String> streamResponseToQuestion(String message, Map<String, Object> filterMetadata) {
-        Flux<String> response;
-        if (MapUtils.isNotEmpty(filterMetadata)) {
-            response =
-                webClient
-                    .get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/api/stream/chat")
-                            .queryParam("q", message)
-                            .queryParam("f", filterMetadata)
-                            .build())
-                    .retrieve()
-                    .bodyToFlux(String.class);
-        } else {
-            response =
-                webClient
-                    .get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/api/stream/chat")
-                            .queryParam("q", message)
-                            .build())
-                    .retrieve()
-                    .bodyToFlux(String.class);
-        }
-        return response;
+        return webClient
+                .get()
+                .uri(uriBuilder -> {
+                    // Start with the base path and message
+                    UriBuilder builder = uriBuilder.path("/api/stream/chat")
+                            .queryParam("q", message);
+
+                    // Add filter metadata as f[key]=value parameters
+                    if (MapUtils.isNotEmpty(filterMetadata)) {
+                        filterMetadata.forEach((key, value) -> {
+                            builder.queryParam("f[" + key + "]", value);
+                        });
+                    }
+
+                    // Build the URI
+                    return builder.build();
+                })
+                .retrieve()
+                .bodyToFlux(String.class);
     }
 }

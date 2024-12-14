@@ -1,5 +1,7 @@
 package org.cftoolsuite.ui;
 
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.server.StreamResource;
 import org.cftoolsuite.ui.view.ChatView;
 import org.cftoolsuite.ui.view.CrawlView;
 import org.cftoolsuite.ui.view.DeleteView;
@@ -32,9 +34,6 @@ public class MainLayout extends AppLayout {
     public MainLayout() {
     	Tab homeTab = createTab(VaadinIcon.HOME.create(), "Home", HomeView.class);
 
-    	Accordion accordion = new Accordion();
-		accordion.setSizeFull();
-
     	Tabs actionTabs = createTabs();
 
     	Tab uploadTab = createTab(VaadinIcon.UPLOAD.create(), "Upload documents", UploadView.class);
@@ -47,10 +46,8 @@ public class MainLayout extends AppLayout {
 		Tab downloadTab = createTab(VaadinIcon.DOWNLOAD.create(), "Download a document", DownloadView.class);
 		Tab deleteTab = createTab(VaadinIcon.TRASH.create(), "Delete a document", DeleteView.class);
 		actionTabs.add(uploadTab, crawlTab, fetchTab, chatTab, listTab, searchTab, summaryTab, downloadTab, deleteTab);
-    	accordion.add("Actions", actionTabs).addThemeVariants(DetailsVariant.REVERSE);
-
     	addToNavbar(true, homeTab, new DrawerToggle());
-    	addToDrawer(accordion);
+    	addToDrawer(getLogoImage(), actionTabs);
     }
 
     private Tabs createTabs() {
@@ -76,5 +73,13 @@ public class MainLayout extends AppLayout {
 		tab.add(link);
 		return tab;
     }
+
+	private Image getLogoImage() {
+		StreamResource imageResource = new StreamResource("sanford.png",
+				() -> getClass().getResourceAsStream("/static/sanford.png"));
+		Image logo = new Image(imageResource, "Logo");
+		logo.setWidth("240px");
+		return logo;
+	}
 
 }

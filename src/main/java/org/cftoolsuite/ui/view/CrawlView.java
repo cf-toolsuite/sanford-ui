@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
 import org.cftoolsuite.domain.crawl.CrawlResponse;
 import org.cftoolsuite.ui.MainLayout;
@@ -20,8 +21,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Crawl")
 @Route(value = "crawl", layout = MainLayout.class)
 public class CrawlView extends BaseView {
@@ -34,16 +33,8 @@ public class CrawlView extends BaseView {
     private Button clearButton;
     private HorizontalLayout buttons;
 
-    public CrawlView(SanfordClient sanfordClient) {
-        super(sanfordClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+    public CrawlView(SanfordClient sanfordClient, AppProperties appProperties) {
+        super(sanfordClient, appProperties);
     }
 
     @Override

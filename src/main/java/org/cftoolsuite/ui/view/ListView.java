@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.domain.FileMetadata;
 import org.cftoolsuite.ui.MainLayout;
 import org.cftoolsuite.ui.component.Markdown;
@@ -33,8 +34,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » List")
 @Route(value = "list", layout = MainLayout.class)
 public class ListView extends BaseView {
@@ -47,16 +46,8 @@ public class ListView extends BaseView {
     private HorizontalLayout buttons;
     private Grid<FileMetadata> grid;
 
-    public ListView(SanfordClient sanfordClient) {
-        super(sanfordClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+    public ListView(SanfordClient sanfordClient, AppProperties appProperties) {
+        super(sanfordClient, appProperties);
     }
 
     @Override

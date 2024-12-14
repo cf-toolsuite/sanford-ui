@@ -3,7 +3,6 @@ package org.cftoolsuite.ui.view;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.cftoolsuite.client.SanfordClient;
@@ -25,8 +24,6 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Upload")
 @Route(value = "upload", layout = MainLayout.class)
 public class UploadView extends BaseView {
@@ -36,19 +33,9 @@ public class UploadView extends BaseView {
     private Upload upload;
     private Button clearButton;
     private VerticalLayout buttons;
-    Map<String, String> supportedContentTypes;
 
     public UploadView(SanfordClient sanfordClient, AppProperties appProperties) {
-        super(sanfordClient);
-        this.supportedContentTypes = appProperties.supportedContentTypes();
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+        super(sanfordClient, appProperties);
     }
 
     @Override
@@ -67,8 +54,6 @@ public class UploadView extends BaseView {
 
         buttons.add(upload, clearButton);
 
-        buttons.setAlignItems(Alignment.CENTER);
-        buttons.setJustifyContentMode(JustifyContentMode.CENTER);
         upload.addSucceededListener(event -> {
             String fileName = event.getFileName();
             InputStream inputStream = buffer.getInputStream(fileName);

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.ui.MainLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Download")
 @Route(value = "download", layout = MainLayout.class)
 public class DownloadView extends BaseView {
@@ -33,16 +32,8 @@ public class DownloadView extends BaseView {
     private Button clearButton;
     private HorizontalLayout buttons;
 
-    public DownloadView(SanfordClient sanfordClient) {
-        super(sanfordClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+    public DownloadView(SanfordClient sanfordClient, AppProperties appProperties) {
+        super(sanfordClient, appProperties);
     }
 
     @Override

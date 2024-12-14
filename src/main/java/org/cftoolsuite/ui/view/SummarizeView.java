@@ -1,6 +1,7 @@
 package org.cftoolsuite.ui.view;
 
 import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.ui.MainLayout;
 import org.cftoolsuite.ui.component.Markdown;
 import org.slf4j.Logger;
@@ -20,8 +21,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import jakarta.annotation.PostConstruct;
-
 @PageTitle("sanford-ui » Summarize")
 @Route(value = "summarize", layout = MainLayout.class)
 public class SummarizeView extends BaseView {
@@ -33,16 +32,8 @@ public class SummarizeView extends BaseView {
     private Button clearButton;
     private HorizontalLayout buttons;
 
-    public SummarizeView(SanfordClient sanfordClient) {
-        super(sanfordClient);
-    }
-
-    @PostConstruct
-    public void init() {
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogoImage());
-        setupUI();
+    public SummarizeView(SanfordClient sanfordClient, AppProperties appProperties) {
+        super(sanfordClient, appProperties);
     }
 
     @Override

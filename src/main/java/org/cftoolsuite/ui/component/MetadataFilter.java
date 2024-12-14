@@ -8,13 +8,11 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import org.cftoolsuite.domain.chat.FilterMetadata;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class MetadataFilter extends CustomField<Map<String, Object>> {
+public class MetadataFilter extends CustomField<List<FilterMetadata>> {
     private final Grid<MetadataEntry> grid;
     private final List<MetadataEntry> entries;
     private final TextField keyField;
@@ -38,7 +36,7 @@ public class MetadataFilter extends CustomField<Map<String, Object>> {
 
         HorizontalLayout inputLayout = new HorizontalLayout(keyField, valueField, addButton);
         inputLayout.setWidth("100%");
-        inputLayout.setAlignItems(FlexComponent.Alignment.BASELINE);
+        inputLayout.setAlignItems(FlexComponent.Alignment.END);
 
         VerticalLayout layout = new VerticalLayout(inputLayout, grid);
         layout.setSpacing(false);
@@ -70,24 +68,24 @@ public class MetadataFilter extends CustomField<Map<String, Object>> {
     }
 
     @Override
-    protected Map<String, Object> generateModelValue() {
+    protected List<FilterMetadata> generateModelValue() {
         if (entries.isEmpty()) {
             return null;
         }
 
-        Map<String, Object> metadata = new HashMap<>();
+        List<FilterMetadata> metadata = new ArrayList<>();
         for (MetadataEntry entry : entries) {
-            metadata.put(entry.getKey(), entry.getValue());
+            metadata.add(new FilterMetadata(entry.getKey(), entry.getValue()));
         }
         return metadata;
     }
 
     @Override
-    public void setPresentationValue(Map<String, Object> metadata) {
+    public void setPresentationValue(List<FilterMetadata> metadata) {
         entries.clear();
         if (metadata != null) {
-            metadata.forEach((key, value) ->
-                    entries.add(new MetadataEntry(key, value.toString()))
+            metadata.forEach(fm ->
+                entries.add(new MetadataEntry(fm.key(), fm.value()))
             );
         }
         grid.getDataProvider().refreshAll();
@@ -95,9 +93,9 @@ public class MetadataFilter extends CustomField<Map<String, Object>> {
 
     private static class MetadataEntry {
         private final String key;
-        private final String value;
+        private final Object value;
 
-        public MetadataEntry(String key, String value) {
+        public MetadataEntry(String key, Object value) {
             this.key = key;
             this.value = value;
         }
@@ -106,7 +104,7 @@ public class MetadataFilter extends CustomField<Map<String, Object>> {
             return key;
         }
 
-        public String getValue() {
+        public Object getValue() {
             return value;
         }
     }

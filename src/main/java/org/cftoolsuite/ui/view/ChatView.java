@@ -1,11 +1,12 @@
 package org.cftoolsuite.ui.view;
 
-
+import org.apache.commons.collections4.CollectionUtils;
 import org.cftoolsuite.client.SanfordStreamingClient;
+import org.cftoolsuite.domain.chat.FilterMetadata;
+import org.cftoolsuite.domain.chat.Inquiry;
 import org.cftoolsuite.ui.MainLayout;
 import org.cftoolsuite.ui.component.Markdown;
 import org.cftoolsuite.ui.component.MetadataFilter;
-
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -16,13 +17,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.util.List;
+
 @PageTitle("sanford-ui » Chat")
 @Route(value = "chat", layout = MainLayout.class)
 public class ChatView extends BaseStreamingView  {
 
-    private TextField messageInput;
+    private TextField question;
     private MetadataFilter metadataFilter;
-    private Button sendButton;
+    private Button submitButton;
     private Button clearButton;
     private HorizontalLayout buttons;
     private Markdown chatHistory;
@@ -35,47 +38,107 @@ public class ChatView extends BaseStreamingView  {
     protected void setupUI() {
         var ui = UI.getCurrent();
         setSizeFull();
-        setPadding(true);
-        setSpacing(true);
 
+        // Create chat history container
+        VerticalLayout chatHistoryContainer = new VerticalLayout();
+        chatHistoryContainer.setSizeFull();
+        chatHistoryContainer.setPadding(false);
+        chatHistoryContainer.setSpacing(false);
+
+        // Add Markdown with styling
         chatHistory = new Markdown();
+        chatHistory.getElement().getStyle()
+            .set("height", "100%")
+            .set("width", "100%")
+            .set("overflow", "auto");
 
-        messageInput = new TextField();
-        messageInput.setPlaceholder("Type a message...");
-        messageInput.setWidth("100%");
+        chatHistoryContainer.add(chatHistory);
+        chatHistoryContainer.setFlexGrow(1, chatHistory);
+
+        // Create input components
+        question = new TextField();
+        question.setPlaceholder("Type a question...");
+        question.setWidth("100%");
 
         metadataFilter = new MetadataFilter();
         metadataFilter.setWidth("100%");
         metadataFilter.setLabel("Metadata Filters");
 
+        // Create buttons
         this.buttons = new HorizontalLayout();
-        sendButton = new Button("Send");
-        sendButton.addClickListener(e -> {
+        submitButton = new Button("Submit");
+        submitButton.addClickListener(e -> {
+            // Prepare the question and metadata message
+            String inquiry = formatQuestion(
+                question.getValue(),
+                metadataFilter.getValue()
+            );
+
+            // Clear previous content and append question message
             chatHistory.clear();
+            chatHistory.appendMarkdown(inquiry);
+
+            // Stream the response
             sanfordStreamingClient
-                .streamResponseToQuestion(messageInput.getValue(), metadataFilter.getValue())
-                .subscribe(ui.accessLater(chatHistory::appendMarkdown, null));
+                .streamResponseToQuestion(new Inquiry(question.getValue(), metadataFilter.getValue()))
+                .subscribe(ui.accessLater(response -> {
+                    chatHistory.appendMarkdown("\n\n" + response);
+                }, null));
         });
-        sendButton.addClickShortcut(Key.ENTER);
+        submitButton.addClickShortcut(Key.ENTER);
 
         this.clearButton = new Button("Clear");
         clearButton.addClickListener(e -> clearAllFields());
-        buttons.add(sendButton, clearButton);
+        buttons.add(submitButton, clearButton);
 
-        add(new H2("Chat"));
-
-        VerticalLayout inputLayout = new VerticalLayout(messageInput, metadataFilter, buttons);
+        // Create input layout with bottom-anchoring
+        VerticalLayout inputLayout = new VerticalLayout(question, metadataFilter, buttons);
         inputLayout.setSpacing(false);
         inputLayout.setPadding(false);
+        inputLayout.setWidth("100%");
 
-        add(chatHistory, inputLayout);
+        // Create a wrapper layout to control height distribution
+        VerticalLayout mainLayout = new VerticalLayout();
+        mainLayout.setSizeFull();
+        mainLayout.setPadding(false);
+        mainLayout.setSpacing(false);
+
+        // Add header
+        H2 header = new H2("Chat");
+        mainLayout.add(header);
+
+        // Add chat history with expand ratio
+        mainLayout.add(chatHistoryContainer);
+        mainLayout.setFlexGrow(2, chatHistoryContainer); // This gives chatHistory 2/3 of the space
+
+        // Add input layout at the bottom
+        mainLayout.add(inputLayout);
+        mainLayout.setFlexGrow(0, inputLayout); // This prevents input layout from expanding
+
+        // Replace the direct add with adding the main layout
+        add(mainLayout);
     }
 
+    private String formatQuestion(String question, List<FilterMetadata> metadata) {
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append("**").append(question).append("**").append("\n\n");
+        if (CollectionUtils.isNotEmpty(metadata)) {
+            messageBuilder.append("Filtered by: { ");
+            metadata.forEach(fm ->
+                messageBuilder.append(fm.key())
+                    .append(": ").append(fm.value()).append(" | ")
+            );
+            messageBuilder.append(" }");
+        }
+        String formattedQuestion = messageBuilder.toString();
+        if (formattedQuestion.endsWith("|  }")) formattedQuestion = formattedQuestion.replaceAll("\\|\\s*}", "}");
+        return formattedQuestion;
+    }
+    
     @Override
     protected void clearAllFields() {
-        messageInput.clear();
+        question.clear();
         chatHistory.clear();
-        metadataFilter.setPresentationValue(null);
+        metadataFilter.clear();
     }
-
 }

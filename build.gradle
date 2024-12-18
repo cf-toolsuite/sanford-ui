@@ -23,7 +23,7 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2024.0.0")
-	set('vaadinVersion', "24.5.8")
+	set('vaadinVersion', "24.6.0")
 }
 
 dependencies {

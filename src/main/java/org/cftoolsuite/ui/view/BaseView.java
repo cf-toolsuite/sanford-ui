@@ -26,7 +26,7 @@ public abstract class BaseView extends VerticalLayout {
 
     protected abstract void setupUI();
 
-    protected abstract void clearAllFields();
+    protected void clearAllFields() {}
 
     protected void showNotification(String message, NotificationVariant variant) {
         Notification notification = new Notification(message, 5000, Position.TOP_STRETCH);

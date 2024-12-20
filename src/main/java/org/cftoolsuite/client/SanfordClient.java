@@ -1,8 +1,10 @@
 package org.cftoolsuite.client;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.cftoolsuite.domain.FileMetadata;
+import org.cftoolsuite.domain.chat.AudioResponse;
 import org.cftoolsuite.domain.chat.Inquiry;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
 import org.cftoolsuite.domain.crawl.CrawlResponse;
@@ -32,6 +34,9 @@ public interface SanfordClient {
 
     @PostMapping("/api/fetch")
     public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
+
+    @PostMapping("/api/converse")
+    public ResponseEntity<AudioResponse> converse(@RequestParam("file") MultipartFile file) throws IOException;
 
     @PostMapping("/api/chat")
     public ResponseEntity<String> chat(@RequestBody Inquiry inquiry);

@@ -14,14 +14,10 @@ import com.vaadin.flow.router.Route;
 import elemental.json.JsonObject;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
-import org.cftoolsuite.domain.CustomMultipartFile;
 import org.cftoolsuite.ui.MainLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
 @PageTitle("sanford-ui » Converse")

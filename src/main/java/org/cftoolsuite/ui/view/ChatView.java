@@ -1,12 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.cftoolsuite.client.SanfordStreamingClient;
-import org.cftoolsuite.domain.chat.FilterMetadata;
-import org.cftoolsuite.domain.chat.Inquiry;
-import org.cftoolsuite.ui.MainLayout;
-import org.cftoolsuite.ui.component.Markdown;
-import org.cftoolsuite.ui.component.MetadataFilter;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -16,6 +9,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.apache.commons.collections4.CollectionUtils;
+import org.cftoolsuite.client.SanfordStreamingClient;
+import org.cftoolsuite.domain.chat.FilterMetadata;
+import org.cftoolsuite.domain.chat.Inquiry;
+import org.cftoolsuite.ui.MainLayout;
+import org.cftoolsuite.ui.component.Markdown;
+import org.cftoolsuite.ui.component.MetadataFilter;
 
 import java.util.List;
 

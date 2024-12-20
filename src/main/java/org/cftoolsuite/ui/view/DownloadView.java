@@ -1,8 +1,13 @@
 package org.cftoolsuite.ui.view;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.ui.MainLayout;
@@ -12,14 +17,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.vaadin.olli.FileDownloadWrapper;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 @PageTitle("sanford-ui » Download")
 @Route(value = "download", layout = MainLayout.class)

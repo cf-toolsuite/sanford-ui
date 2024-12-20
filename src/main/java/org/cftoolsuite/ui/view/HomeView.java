@@ -1,14 +1,13 @@
 package org.cftoolsuite.ui.view;
 
-import org.cftoolsuite.ui.MainLayout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.cftoolsuite.ui.MainLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("sanford-ui » Home")

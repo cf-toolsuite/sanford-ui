@@ -1,20 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.List;
-
-import org.cftoolsuite.client.SanfordClient;
-import org.cftoolsuite.domain.AppProperties;
-import org.cftoolsuite.domain.FileMetadata;
-import org.cftoolsuite.ui.MainLayout;
-import org.cftoolsuite.ui.component.Markdown;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
-import org.vaadin.olli.FileDownloadWrapper;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
@@ -33,6 +18,20 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
+import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
+import org.cftoolsuite.domain.FileMetadata;
+import org.cftoolsuite.ui.MainLayout;
+import org.cftoolsuite.ui.component.Markdown;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.vaadin.olli.FileDownloadWrapper;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.List;
 
 @PageTitle("sanford-ui » Search")
 @Route(value = "search", layout = MainLayout.class)

@@ -1,13 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import org.cftoolsuite.client.SanfordClient;
-import org.cftoolsuite.domain.AppProperties;
-import org.cftoolsuite.ui.MainLayout;
-import org.cftoolsuite.ui.component.Markdown;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -20,6 +12,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.cftoolsuite.client.SanfordClient;
+import org.cftoolsuite.domain.AppProperties;
+import org.cftoolsuite.ui.MainLayout;
+import org.cftoolsuite.ui.component.Markdown;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 
 @PageTitle("sanford-ui » Summarize")
 @Route(value = "summarize", layout = MainLayout.class)

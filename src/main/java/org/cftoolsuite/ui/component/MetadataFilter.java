@@ -10,7 +10,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.cftoolsuite.domain.chat.FilterMetadata;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MetadataFilter extends CustomField<List<FilterMetadata>> {
     private final Grid<MetadataEntry> grid;

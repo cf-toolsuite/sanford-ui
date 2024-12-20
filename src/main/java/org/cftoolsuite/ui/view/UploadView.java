@@ -1,10 +1,13 @@
 package org.cftoolsuite.ui.view;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Stream;
-
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.apache.commons.io.FilenameUtils;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
@@ -16,14 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Stream;
 
 @PageTitle("sanford-ui » Upload")
 @Route(value = "upload", layout = MainLayout.class)

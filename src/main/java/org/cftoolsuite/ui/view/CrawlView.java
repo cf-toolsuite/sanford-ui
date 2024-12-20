@@ -1,8 +1,13 @@
 package org.cftoolsuite.ui.view;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
@@ -12,14 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @PageTitle("sanford-ui » Crawl")
 @Route(value = "crawl", layout = MainLayout.class)

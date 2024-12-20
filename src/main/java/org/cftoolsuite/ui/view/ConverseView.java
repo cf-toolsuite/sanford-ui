@@ -5,7 +5,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.page.PendingJavaScriptResult;
@@ -38,20 +37,9 @@ public class ConverseView extends BaseView {
 
     @Override
     protected void setupUI() {
-
         addClassName("box-border");
-        setSpacing(true);
-        setPadding(true);
-
-        setupRobotEmoji();
         setupTitle();
         setupMainContainer();
-    }
-
-    private void setupRobotEmoji() {
-        Span robotEmoji = new Span("🤖");
-        robotEmoji.getStyle().set("font-size", "100px");
-        add(robotEmoji);
     }
 
     private void setupTitle() {

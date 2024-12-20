@@ -1,7 +1,5 @@
 package org.cftoolsuite.ui.view;
 
-import org.cftoolsuite.client.SanfordClient;
-
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
@@ -9,6 +7,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
 
 import java.util.Map;

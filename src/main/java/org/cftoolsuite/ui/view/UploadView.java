@@ -3,6 +3,7 @@ package org.cftoolsuite.ui.view;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 import org.cftoolsuite.client.SanfordClient;
@@ -44,7 +45,7 @@ public class UploadView extends BaseView {
         int numberOfSupportedContentTypes = supportedContentTypes.size() * 2;
         List<String> acceptedFileExtensions = supportedContentTypes.keySet().stream().map(k -> String.format(".%s", k)).toList();
         List<String> acceptedContentTypes = supportedContentTypes.values().stream().toList();
-        List<String> combinedList = List.of(acceptedFileExtensions, acceptedContentTypes).stream().flatMap(List::stream).toList();
+        List<String> combinedList = Stream.of(acceptedFileExtensions, acceptedContentTypes).flatMap(List::stream).toList();
         String[] acceptedFileTypes = combinedList.toArray(new String[numberOfSupportedContentTypes]);
         upload = new Upload(buffer);
         upload.setDropAllowed(true);

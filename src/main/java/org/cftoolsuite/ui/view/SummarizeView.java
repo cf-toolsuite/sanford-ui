@@ -63,12 +63,13 @@ public class SummarizeView extends BaseView {
 
     protected void summarizeRequest() {
         try {
-            ResponseEntity<String> response = sanfordClient.summarize(fileName.getValue());
+            String title = fileName.getValue();
+            ResponseEntity<String> response = sanfordClient.summarize(title);
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Dialog summaryDialog = new Dialog();
                 summaryDialog.setWidth("800px");
 
-                H3 title = new H3("Summary for " + fileName);
+                H3 heading = new H3(String.format("Summary for %s", title));
 
                 Div contentWrapper = new Div();
                 contentWrapper.setWidthFull();
@@ -86,7 +87,7 @@ public class SummarizeView extends BaseView {
                 buttonLayout.setJustifyContentMode(JustifyContentMode.END);
                 buttonLayout.setWidthFull();
 
-                VerticalLayout layout = new VerticalLayout(title, contentWrapper, buttonLayout);
+                VerticalLayout layout = new VerticalLayout(heading, contentWrapper, buttonLayout);
                 summaryDialog.add(layout);
                 summaryDialog.open();
             } else {

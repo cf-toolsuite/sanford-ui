@@ -1,8 +1,7 @@
 package org.cftoolsuite.client;
 
-import java.util.List;
-
 import org.cftoolsuite.domain.FileMetadata;
+import org.cftoolsuite.domain.chat.AudioResponse;
 import org.cftoolsuite.domain.chat.Inquiry;
 import org.cftoolsuite.domain.crawl.CrawlRequest;
 import org.cftoolsuite.domain.crawl.CrawlResponse;
@@ -12,14 +11,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @FeignClient(name = "sanford-client", url = "${document.service.url}")
 public interface SanfordClient {
@@ -28,13 +23,16 @@ public interface SanfordClient {
     ResponseEntity<FileMetadata> uploadFile(@RequestPart("fileName") MultipartFile file);
 
     @PostMapping("/api/crawl")
-    public ResponseEntity<CrawlResponse> startCrawl(@RequestBody CrawlRequest crawlRequest);
+    ResponseEntity<CrawlResponse> startCrawl(@RequestBody CrawlRequest crawlRequest);
 
     @PostMapping("/api/fetch")
-    public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
+    ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
+
+    @PostMapping(value = "/api/converse", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    ResponseEntity<AudioResponse> converse(@RequestBody byte[] audioBytes);
 
     @PostMapping("/api/chat")
-    public ResponseEntity<String> chat(@RequestBody Inquiry inquiry);
+    ResponseEntity<String> chat(@RequestBody Inquiry inquiry);
 
     @GetMapping(value = "/api/files", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> getFileMetadata(@RequestParam(value = "fileName", required = false) String fileName);

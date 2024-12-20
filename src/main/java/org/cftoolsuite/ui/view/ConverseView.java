@@ -12,7 +12,6 @@ import com.vaadin.flow.component.page.PendingJavaScriptResult;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import elemental.json.JsonObject;
-import org.apache.commons.io.FileUtils;
 import org.cftoolsuite.client.SanfordClient;
 import org.cftoolsuite.domain.AppProperties;
 import org.cftoolsuite.domain.CustomMultipartFile;
@@ -21,7 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
 @PageTitle("sanford-ui » Converse")
@@ -131,23 +131,12 @@ public class ConverseView extends BaseView {
             String base64Audio = result.getString("audioData");
             byte[] audioData = Base64.getDecoder().decode(base64Audio);
 
-            // Create temporary file
-            File tempFile = File.createTempFile("audio-", ".webm");
-            FileUtils.writeByteArrayToFile(tempFile, audioData);
-
-            // Convert to MultipartFile
-            MultipartFile multipartFile = new CustomMultipartFile(
-                    "file",
-                    "recording.webm",
-                    "audio/webm",
-                    FileUtils.readFileToByteArray(tempFile)
-            );
 
             // Show loading indicator
             UI.getCurrent().access(() -> loadingDiv.getStyle().set("display", "flex"));
 
             // Make API call using Feign client
-            var response = sanfordClient.converse(multipartFile);
+            var response = sanfordClient.converse(audioData);
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 // Update UI with response
                 UI.getCurrent().access(() -> {
@@ -169,9 +158,6 @@ public class ConverseView extends BaseView {
                 });
                 showNotification("Error conversing with chatbot", NotificationVariant.LUMO_ERROR);
             }
-
-            // Cleanup temp file
-            tempFile.delete();
 
         } catch (Exception e) {
             log.error("Error conversing with chatbot", e);

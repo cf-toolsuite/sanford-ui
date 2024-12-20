@@ -1,8 +1,5 @@
 package org.cftoolsuite.client;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.cftoolsuite.domain.FileMetadata;
 import org.cftoolsuite.domain.chat.AudioResponse;
 import org.cftoolsuite.domain.chat.Inquiry;
@@ -14,14 +11,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @FeignClient(name = "sanford-client", url = "${document.service.url}")
 public interface SanfordClient {
@@ -35,8 +28,8 @@ public interface SanfordClient {
     @PostMapping("/api/fetch")
     public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
 
-    @PostMapping("/api/converse")
-    public ResponseEntity<AudioResponse> converse(@RequestParam("file") MultipartFile file) throws IOException;
+    @PostMapping(value = "/api/converse", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<AudioResponse> converse(@RequestBody byte[] audioBytes);
 
     @PostMapping("/api/chat")
     public ResponseEntity<String> chat(@RequestBody Inquiry inquiry);

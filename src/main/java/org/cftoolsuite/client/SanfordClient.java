@@ -23,16 +23,16 @@ public interface SanfordClient {
     ResponseEntity<FileMetadata> uploadFile(@RequestPart("fileName") MultipartFile file);
 
     @PostMapping("/api/crawl")
-    public ResponseEntity<CrawlResponse> startCrawl(@RequestBody CrawlRequest crawlRequest);
+    ResponseEntity<CrawlResponse> startCrawl(@RequestBody CrawlRequest crawlRequest);
 
     @PostMapping("/api/fetch")
-    public ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
+    ResponseEntity<FetchResponse> fetchUrls(@RequestBody FetchRequest request);
 
     @PostMapping(value = "/api/converse", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<AudioResponse> converse(@RequestBody byte[] audioBytes);
+    ResponseEntity<AudioResponse> converse(@RequestBody byte[] audioBytes);
 
     @PostMapping("/api/chat")
-    public ResponseEntity<String> chat(@RequestBody Inquiry inquiry);
+    ResponseEntity<String> chat(@RequestBody Inquiry inquiry);
 
     @GetMapping(value = "/api/files", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<FileMetadata>> getFileMetadata(@RequestParam(value = "fileName", required = false) String fileName);

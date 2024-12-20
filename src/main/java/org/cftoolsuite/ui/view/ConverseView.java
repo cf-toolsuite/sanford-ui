@@ -38,8 +38,8 @@ public class ConverseView extends BaseView {
 
     @Override
     protected void setupUI() {
+
         addClassName("box-border");
-        setAlignItems(Alignment.CENTER);
         setSpacing(true);
         setPadding(true);
 

@@ -10,6 +10,6 @@ import reactor.core.publisher.Flux;
 public interface SanfordStreamingClient {
 
     @PostMapping("/api/stream/chat")
-    public Flux<String> streamResponseToQuestion(@RequestBody Inquiry inquiry);
+    Flux<String> streamResponseToQuestion(@RequestBody Inquiry inquiry);
 }
 

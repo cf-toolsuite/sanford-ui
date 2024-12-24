@@ -109,7 +109,11 @@ Set the `npm` dependencies to be
 "@vaadin/hilla-react-signals": "^24.6.0"
 ```
 
-then execute `gradle clean build bootRun -Dspring.profiles.active=default,local`.
+then execute 
+
+```bash
+gradle clean build bootRun -Dspring.profiles.active=default,local`
+```
 
 ## How to run on Tanzu Platform for Cloud Foundry
 

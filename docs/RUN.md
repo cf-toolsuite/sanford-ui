@@ -2,6 +2,7 @@
 
 * [How to Run with Gradle](#how-to-run-with-gradle)
   * [targeting an instance of Sanford](#targeting-an-instance-of-sanford)
+  * [troubleshooting NPM dependencies](#troubleshooting-npm-dependencies) 
 * [How to run on Tanzu Platform for Cloud Foundry](#how-to-run-on-tanzu-platform-for-cloud-foundry)
   * [Target a foundation](#target-a-foundation)
   * [Authenticate](#authenticate)
@@ -48,6 +49,67 @@ export DOCUMENT_SERVICE_HOST=sanford.dev.jitterbug.io
 export DOCUMENT_SERVICE_PORT=443
 ./gradlew build bootRun
 ```
+
+### troubleshooting NPM dependencies
+
+You might see the following upon visiting `http://localhost:8081`
+
+```
+Unexpected Application Error!
+prevDeps is undefined
+
+areHookInputsEqual@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:56757:35
+updateCallback@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:57424:35
+useCallback@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:57934:20
+useCallback@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:44377:29
+useNavigateStable@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:70750:31
+useNavigate@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:70316:24
+Flow2@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:75206:22
+renderWithHooks@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:56789:33
+updateFunctionComponent@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:59821:26
+beginWork@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:61163:20
+beginWork$1@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:64988:20
+performUnitOfWork@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:64436:18
+workLoopSync@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:64372:28
+renderRootSync@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:64351:13
+recoverFromConcurrentError@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:63969:40
+performConcurrentWorkOnRoot@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:63917:28
+workLoop@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:45375:50
+flushWork@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:45354:22
+performWorkUntilDeadline@http://localhost:8081/VAADIN/build/indexhtml-CKE7iEAW.js:45562:29
+```
+
+Stop the application.
+
+Execute
+
+```bash
+gradle vaadinClean
+```
+
+Edit `package.json`.
+
+Set the versions of the `npm` dependencies to be equal to the version of `com.vaadin` plugin as defined in `build.gradle`.
+
+E.g., You see lines like this:
+
+```node
+"@vaadin/hilla-lit-form": "^24.4.19", 
+"@vaadin/hilla-react-signals": "^24.4.19"
+```
+
+in your `package.json`.
+
+But in `build.gradle` you have the Vaadin plugin version set to be `id 'com.vaadin' version '24.6.0'`.
+
+Set the `npm` dependencies to be
+
+```
+"@vaadin/hilla-lit-form": "^24.6.0", 
+"@vaadin/hilla-react-signals": "^24.6.0"
+```
+
+then execute `gradle clean build bootRun -Dspring.profiles.active=default,local`.
 
 ## How to run on Tanzu Platform for Cloud Foundry
 

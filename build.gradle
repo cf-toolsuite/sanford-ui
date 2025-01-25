@@ -3,7 +3,7 @@ plugins {
 	id 'com.vaadin' version '24.6.2'
 	id 'org.cyclonedx.bom' version '2.0.0'
 	id 'com.gorylenko.gradle-git-properties' version '2.4.2'
-	id 'org.springframework.boot' version '3.4.1'
+	id 'org.springframework.boot' version '3.4.2'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.eclipse.jkube.kubernetes' version '1.18.0'
 }
@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.apache.commons:commons-collections4:4.4'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.0'
 	implementation 'io.github.openfeign:feign-hc5:13.5'
 	implementation 'com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:4.2.1'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'

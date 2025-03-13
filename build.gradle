@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'com.vaadin' version '24.6.5'
+	id 'com.vaadin' version '24.6.6'
 	id 'org.cyclonedx.bom' version '2.2.0'
 	id 'com.gorylenko.gradle-git-properties' version '2.5.0'
 	id 'org.springframework.boot' version '3.4.3'

@@ -1,9 +1,9 @@
 plugins {
 	id 'java'
-	id 'com.vaadin' version '24.7.2'
-	id 'org.cyclonedx.bom' version '2.3.0'
+	id 'com.vaadin' version '24.8.2'
+	id 'org.cyclonedx.bom' version '2.3.1'
 	id 'com.gorylenko.gradle-git-properties' version '2.5.0'
-	id 'org.springframework.boot' version '3.4.5'
+	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.eclipse.jkube.kubernetes' version '1.18.1'
 }
@@ -22,17 +22,17 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2024.0.1")
-	set('vaadinVersion', "24.7.2")
+	set('springCloudVersion', "2025.0.0")
+	set('vaadinVersion', "24.8.2")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'org.apache.commons:commons-collections4:4.4'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.0'
-	implementation 'io.github.openfeign:feign-hc5:13.5'
+	implementation 'org.apache.commons:commons-collections4:4.5.0'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.1'
+	implementation 'io.github.openfeign:feign-hc5:13.6'
 	implementation 'com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:4.2.1'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
 	implementation 'org.vaadin.olli:file-download-wrapper:7.1.0'

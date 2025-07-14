@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.apache.commons:commons-collections4:4.5.0'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.1'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.2'
 	implementation 'io.github.openfeign:feign-hc5:13.6'
 	implementation 'com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:4.2.1'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'

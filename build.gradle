@@ -1,11 +1,11 @@
 plugins {
 	id 'java'
-	id 'com.vaadin' version '24.9.0'
-	id 'org.cyclonedx.bom' version '2.4.1'
-	id 'com.gorylenko.gradle-git-properties' version '2.5.3'
-	id 'org.springframework.boot' version '3.5.6'
-	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.eclipse.jkube.kubernetes' version '1.18.1'
+	id 'com.vaadin' version "${vaadinVersion}"
+	id 'org.cyclonedx.bom' version "${cyclonedxVersion}"
+	id 'com.gorylenko.gradle-git-properties' version "${gradleGitPropertiesVersion}"
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+	id 'org.eclipse.jkube.kubernetes' version "${jkubeVersion}"
 }
 
 group = 'org.cftoolsuite'
@@ -21,24 +21,19 @@ repositories {
 	maven { url 'https://maven.vaadin.com/vaadin-addons/' }
 }
 
-ext {
-	set('springCloudVersion', "2025.0.0")
-	set('vaadinVersion', "24.9.0")
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'org.apache.commons:commons-collections4:4.5.0'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.2'
-	implementation 'io.github.openfeign:feign-hc5:13.6'
-	implementation 'com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:4.2.1'
+	implementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+	implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
+	implementation "io.github.openfeign:feign-hc5:${feignHc5Version}"
+	implementation "com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:${feignReactorVersion}"
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
-	implementation 'org.vaadin.olli:file-download-wrapper:7.1.0'
+	implementation "org.vaadin.olli:file-download-wrapper:${fileDownloadWrapperVersion}"
 	implementation 'org.apache.commons:commons-lang3'
-	implementation 'io.pivotal.cfenv:java-cfenv-all:3.5.0'
-	implementation 'org.springframework.cloud:spring-cloud-bindings:2.0.4'
+	implementation "io.pivotal.cfenv:java-cfenv-all:${cfenvVersion}"
+	implementation "org.springframework.cloud:spring-cloud-bindings:${springCloudBindingsVersion}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
